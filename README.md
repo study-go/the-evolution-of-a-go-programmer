@@ -226,7 +226,7 @@ func Factorial(n int) (res int) {
 
 ## Rob Pike
 
-```go
+```text
 func factorial(n int64) (*big.Int, error) {
 	if n < 0 {
 		return nil, fmt.Errorf("negative value %d for factorial", n)
@@ -246,7 +246,7 @@ func factorial(n int64) (*big.Int, error) {
 
 ## Russ Cox
 
-```go
+```text
 func factorial(n int64) (*big.Int, error) {
 	......
 }
