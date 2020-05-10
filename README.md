@@ -30,6 +30,23 @@ func Factorial(n int) int {
 }
 ```
 
+## Compiler optimized Go programmer
+
+```
+package fac
+
+func Factorial(n int) int {
+    return factorialWithProduct(n, 1)
+}
+
+func factorialWithProduct(n, prd int) int {
+    if n == 0 {
+        return prd
+    }
+    return factorialWithProduct(n - 1, prd * n)
+}
+```
+
 ## Generic Go programmer
 
 ```go
@@ -196,10 +213,10 @@ func (this *FactorialImpl) CalculateFactorial() int {
 package fac
 
 // Factorial returns n!.
-func Factorial(n int) int {
-	res := 1
+func Factorial(n int) (res int) {
+	res = 1
 
-	for i := 1; i <= n; i++ {
+	for i := 2; i <= n; i++ {
 		res *= i
 	}
 
@@ -209,19 +226,36 @@ func Factorial(n int) int {
 
 ## Rob Pike
 
-```text
-package fac
-
-// Factorial returns n!.
-func Factorial(n int) int {
-	res := 1
-
-	for i := 1; i <= n; i++ {
-		res *= i
+```go
+func factorial(n int64) (*big.Int, error) {
+	if n < 0 {
+		return nil, fmt.Errorf("negative value %d for factorial", n)
 	}
-
-	return res
+	fac := big.NewInt(1)
+	if n == 0 {
+		return fac
+	}
+	x := big.NewInt(0)
+	for i := int64(2); i <= n; i++ {
+		x.SetInt64(i)
+		fac.Mul(fac, x)
+	}
+	return fac
 }
+```
+
+## Russ Cox
+
+```go
+func factorial(n int64) (*big.Int, error) {
+	......
+}
+```
+
+```
+factorial.go
+go.mod
+go.sum
 ```
 
 > Tribute to the Iavor Diatchki's original page "[The Evolution of a Programmer](https://www.ariel.com.au/jokes/The_Evolution_of_a_Programmer.html)".
